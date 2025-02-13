@@ -1,6 +1,7 @@
 package org.example;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import static java.math.RoundingMode.HALF_UP;
@@ -12,7 +13,7 @@ import static org.example.Rating.NOT_STAR;
  * Olf.Ayari
  * Version: 1.0-SNAPSHOT
  */
-public class Product {
+public abstract class Product {
     public static final BigDecimal DISCOUNT_PRICE= BigDecimal.valueOf(0.1);
 
     private int Id;
@@ -21,7 +22,7 @@ public class Product {
     private Rating rating;
 
 
-    public Product(int id, String name, BigDecimal price, Rating rating) {
+     Product(int id, String name, BigDecimal price, Rating rating) {
         this.Id = id;
         this.Name = name;
         this.Price = price;
@@ -29,14 +30,14 @@ public class Product {
     }
 
 
-    public Product(int id, String name, BigDecimal price) {
+     Product(int id, String name, BigDecimal price) {
         this(id, name, price, NOT_STAR); // static import for rating so can juste write NOT_STAR without the rating
     }
 
 
 
     // constructor with no paramaters   to allow tho Shop to compile
-    public Product() {
+     Product() {
         this(0, "NO_NAME", BigDecimal.valueOf(0.1)); //p4
 
     }
@@ -75,9 +76,11 @@ public class Product {
         return Price.multiply(DISCOUNT_PRICE).setScale(2, HALF_UP);
     }
 
-    public Product applyRating(Rating resultRating) {
-        return new Product(this.Id, this.Name, this.Price, resultRating);
-    }
+     abstract Product applyRating(Rating resultRating) ;
+
+    //{
+      //  return new Product(this.Id, this.Name, this.Price, resultRating);
+    //}
 
       /*@Override
   public boolean equals(Object o) {
@@ -115,5 +118,10 @@ public class Product {
         return Id + " " + Name + " " + Price + " " + getDiscount()+ " " + rating.getStars();
     }
 
+
+    public LocalDate getBestBefore(){
+        return LocalDate.now();
+
+    }
 }
 

@@ -2,6 +2,7 @@ package org.example;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  * Author: Olfa 
@@ -12,15 +13,25 @@ import java.time.LocalDate;
 public class Shop {
 
     public static void main(String[] args) {
-        Product p1= new Product(101, "Tea", BigDecimal.valueOf(1.99));
-        Product p2= new Drink(102, "Coffee", BigDecimal.valueOf(1.99), Rating.FOUR_STARS);
-        Product p3= new Food(103, "Cake", BigDecimal.valueOf(1.99), Rating.FIVE_STARS, LocalDate.now().plusDays(2));
-        Product p4= new Product();
+        ProductManager pm = new ProductManager();
+        Product p1= pm.createProduct(101, "Tea", BigDecimal.valueOf(1.99), Rating.THREE_STARS);
+        Product p2=pm.createProduct(102, "Coffee", BigDecimal.valueOf(1.99), Rating.FOUR_STARS);
+        Product p3= pm.createProduct(103, "Cake", BigDecimal.valueOf(1.99), Rating.FIVE_STARS, LocalDate.now().plusDays(2));
+        Product p4= pm.createProduct(105, "Cake", BigDecimal.valueOf(1.99), Rating.FIVE_STARS, LocalDate.now());
         Product p5= p3.applyRating(Rating.THREE_STARS);
-        Product p6= new Drink (104, "Chocolate", BigDecimal.valueOf(2.99), Rating.FIVE_STARS);
-        Product p7= new Food (104, "Chocolate", BigDecimal.valueOf(2.99), Rating.FIVE_STARS, LocalDate.now().plusDays(2));
+        Product p6= pm.createProduct (104, "Chocolate", BigDecimal.valueOf(2.99), Rating.FIVE_STARS);
+        Product p7= pm.createProduct (104, "Chocolate", BigDecimal.valueOf(2.99), Rating.FIVE_STARS, LocalDate.now().plusDays(2));
+        Product p8 = p1.applyRating(Rating.FIVE_STARS);
+        Product p9 = p1.applyRating(Rating.TWO_STARS);
+
         System.out.println(p6.equals(p7)); // p6 and p7 are two different objects in memeory
      // the equal compares references
+
+       /* if(p3 instanceof Food){
+            LocalDate bestBefore = ((Food)p3).getBestBefore();
+        }*/
+        p3.getBestBefore();
+        p2.getBestBefore();
 
 
 
@@ -41,7 +52,10 @@ public class Shop {
         System.out.println(p3);
         System.out.println(p4);
         System.out.println(p5);
-
+        System.out.println(p6);
+        System.out.println(p7);
+        System.out.println(p8);
+        System.out.println(p9);
 
 
     }
