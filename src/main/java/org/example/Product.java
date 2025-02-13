@@ -1,6 +1,7 @@
 package org.example;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import static java.math.RoundingMode.HALF_UP;
 import static org.example.Rating.NOT_STAR;
@@ -27,11 +28,14 @@ public class Product {
         this.rating = rating;
     }
 
+
     public Product(int id, String name, BigDecimal price) {
         this(id, name, price, NOT_STAR); // static import for rating so can juste write NOT_STAR without the rating
     }
 
-    //to allow tho Shop to compile
+
+
+    // constructor with no paramaters   to allow tho Shop to compile
     public Product() {
         this(0, "NO_NAME", BigDecimal.valueOf(0.1)); //p4
 
@@ -74,5 +78,42 @@ public class Product {
     public Product applyRating(Rating resultRating) {
         return new Product(this.Id, this.Name, this.Price, resultRating);
     }
+
+      /*@Override
+  public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Id == product.Id && Objects.equals(Name, product.Name);
+    }*/
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+       if (obj != null && getClass() == obj.getClass()) {
+            if (obj instanceof Product) {
+                final Product other = (Product) obj;
+                return this.Id == other.Id && Objects.equals(this.Name, other.Name);
+            }
+        }
+        return false;
+    }
+
+
+
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 23 * hash + this.Id;
+        return hash;
+    }
+
+    @Override
+    public String toString() {
+        return Id + " " + Name + " " + Price + " " + getDiscount()+ " " + rating.getStars();
+    }
+
 }
 
