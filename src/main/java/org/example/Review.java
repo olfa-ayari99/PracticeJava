@@ -9,6 +9,12 @@ package org.example;
 public class Review {
 
     private Rating rating;
+
+    public Review(Rating rating, String comments) {
+        this.rating = rating;
+        this.comments = comments;
+    }
+
     private String comments;
 
     public Rating getRating() {
@@ -19,11 +25,5 @@ public class Review {
         return comments;
     }
 
-    @Override
-    public String toString() {
-        return "Review{" +
-                "rating=" + rating +
-                ", comments='" + comments + '\'' +
-                '}';
-    }
+
 }
