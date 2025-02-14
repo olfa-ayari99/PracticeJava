@@ -18,9 +18,9 @@ public final class Drink extends Product {
 
     }
 
-    @Override
+  @Override
     public Product applyRating(Rating newrating) {
-        return new Drink(this.getId(), this.getName(), this.getPrice(), newrating);
+       return new Drink(this.getId(), this.getName(), this.getPrice(), newrating);
     }
 
     @Override

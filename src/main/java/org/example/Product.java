@@ -13,7 +13,7 @@ import static org.example.Rating.NOT_STAR;
  * Olf.Ayari
  * Version: 1.0-SNAPSHOT
  */
-public abstract class Product {
+public abstract class Product implements Rateable<Product> {
     public static final BigDecimal DISCOUNT_PRICE= BigDecimal.valueOf(0.1);
 
     private int Id;
@@ -76,7 +76,7 @@ public abstract class Product {
         return Price.multiply(DISCOUNT_PRICE).setScale(2, HALF_UP);
     }
 
-     abstract Product applyRating(Rating resultRating) ;
+     //public abstract Product applyRating(Rating resultRating) ;
 
     //{
       //  return new Product(this.Id, this.Name, this.Price, resultRating);
