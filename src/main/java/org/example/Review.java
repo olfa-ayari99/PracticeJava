@@ -6,16 +6,17 @@ package org.example;
  * Olf.Ayari
  * Version: 1.0-SNAPSHOT
  */
-public class Review {
+public class Review implements Comparable<Review>{
 
     private Rating rating;
+    private String comments;
 
     public Review(Rating rating, String comments) {
         this.rating = rating;
         this.comments = comments;
     }
 
-    private String comments;
+
 
     public Rating getRating() {
         return rating;
@@ -26,4 +27,9 @@ public class Review {
     }
 
 
+
+    @Override
+    public int compareTo(Review other) {
+        return other.rating.ordinal() - this.rating.ordinal(); // in ther order of their ratings
+    }
 }
