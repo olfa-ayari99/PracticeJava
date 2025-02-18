@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Author: Olfa
@@ -73,10 +75,18 @@ public class ProductManager {
         List<Review> reviews = products.get(product);
         products.replace(product, reviews);
         reviews.add(new Review(rating, comments));
-        int sum = 0;
-        for (Review review : reviews) {
-            sum += review.getRating().ordinal();
-        }
+
+        product = product.applyRating(
+                Rateable.convert(
+                        (int) Math.round(
+                                reviews.stream().mapToInt(r -> r.getRating().ordinal())
+                                        .average().orElse(0))));
+
+
+      //  int sum = 0;
+       // for (Review review : reviews) {
+        //    sum += review.getRating().ordinal();
+        //}
        /* int sum = 0, i = 0;
         boolean reviewed = false;
         while (i < reviews.length && !reviewed) {
@@ -93,20 +103,26 @@ public class ProductManager {
        /* if (i > 0) {  // Prevent division by zero
             this.product = product.applyRating(Rateable.convert(Math.round((float) sum / i)));
         }*/
-        product = product.applyRating(Rateable.convert(Math.round((float) sum / reviews.size())));
+        //product = product.applyRating(Rateable.convert(Math.round((float) sum / reviews.size())));
         products.put(product, reviews);
         return product;
     }
 
     public Product findProduct(int Id) {
-        Product result = null;
+     /*   Product result = null;
         for (Product product : products.keySet()) {
             if (product.getId() == Id) {
                 result = product;
                 break;
             }
         }
-        return result;
+        return result;  */
+
+        return products.keySet()
+                .stream()
+                .filter (p-> p.getId() == Id)
+                .findFirst()
+                .orElse(null);
     }
 
     public void printProductReport(int Id){
@@ -121,9 +137,16 @@ public void printProductReport(Product product) {
     StringBuilder txt = new StringBuilder();
     txt.append( formatter.formatProduct(product)  );
     txt.append('\n');
+    if(reviews.isEmpty()){
+        txt.append(formatter.getText()).append("\n");
+    }else {
+        txt.append(reviews.stream()
+                .map(r -> formatter.formatReview(r) + "\n")
+                .collect(Collectors.joining()));
+    }
    // boolean noReviews = true;
-    Collections.sort(reviews);
-    for (Review review : reviews) {
+    //Collections.sort(reviews);
+   /* for (Review review : reviews) {
         if (review == null) {
             break;  // Stop if reviews are null
         }
@@ -134,24 +157,41 @@ public void printProductReport(Product product) {
     if (reviews.isEmpty()) {
         txt.append(formatter.getText("no.reviews"));
         txt.append('\n');
-    }
+    } */
     System.out.println(txt);
 }
 
-public void printProducts(Comparator<Product> sorter) {
-        List<Product> productList= new ArrayList<>(products.keySet());
+public void printProducts(Predicate<Product> filter , Comparator<Product> sorter) {
+     //   List<Product> productList= new ArrayList<>(products.keySet());
+          //productList.sort(sorter);
         StringBuilder txt = new StringBuilder();
-        for(Product product : productList){
+        products.keySet()
+                .stream()
+                .sorted(sorter)
+                .filter(filter)
+                .forEach(p ->txt.append(formatter.formatProduct(p) + "\n" ));
+        /*for(Product product : productList){
             txt.append(formatter.formatProduct(product));
             txt.append('\n');
-        }
+        }*/
         System.out.println(txt);
-
-
 }
 
 
-
+public  Map<String, String > getDiscounts() {
+        return  products.keySet()
+                .stream()
+                .collect(
+                        Collectors.groupingBy(
+                                product -> product.getRating().getStars(),
+                                Collectors.collectingAndThen(
+                                Collectors.summingDouble(
+                                        product -> product.getDiscount().doubleValue()),
+                                                discount -> formatter.moneyFormat.format(discount)
+                        )
+                        )
+                );
+}
 
 private static class ResourceFormatter {
     private Locale locale;
@@ -181,8 +221,8 @@ private static class ResourceFormatter {
 
     }
 
-    private String getText(String key) {
-        return resources.getString(key);
+    private String getText() {
+        return resources.getString("no Reviews");
     }
 }
 

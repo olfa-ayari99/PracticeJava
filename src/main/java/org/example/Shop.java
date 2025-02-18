@@ -17,7 +17,7 @@ public class Shop {
      //   ProductManager pm = new ProductManager(Locale.UK);
         ProductManager pm = new ProductManager("en-GB");
         pm.createProduct(101, "Tea", BigDecimal.valueOf(1.99), Rating.NOT_STAR);
-        pm.printProductReport(101);
+        //pm.printProductReport(101);
 
         pm.reviewProduct(101, Rating.FOUR_STARS, "Nice hot cup of tea");
         pm.reviewProduct(101, Rating.TWO_STARS, "Rather weak  tea");
@@ -55,9 +55,11 @@ public class Shop {
       pm.reviewProduct(106, Rating.THREE_STARS, "Better than cookie");
        pm.reviewProduct(106, Rating.TWO_STARS, "Too bitter");
        pm.reviewProduct(106, Rating.ONE_STAR, "I don't get it !");
-        //pm.printProductReport(106);
+        pm.printProductReport(106);
 
-        pm.printProducts((p1, p2) -> p2.getRating().ordinal() - p1.getRating().ordinal());
+        pm.printProducts(p -> p.getPrice().floatValue() < 2  ,(p1, p2) -> p2.getRating().ordinal() - p1.getRating().ordinal());
+        pm.getDiscounts().forEach(
+                (rating,discount) -> System.out.println(rating +"\t"+ discount));
 
 
 
