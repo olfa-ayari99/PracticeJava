@@ -14,21 +14,23 @@ import java.util.Locale;
 public class Shop {
 
     public static void main(String[] args) {
-     //   ProductManager pm = new ProductManager(Locale.UK);
-        ProductManager pm = new ProductManager("en-GB");
+       // ProductManager pm = new ProductManager(Locale.UK);
+       ProductManager pm = new ProductManager("en-GB");
         pm.createProduct(101, "Tea", BigDecimal.valueOf(1.99), Rating.NOT_STAR);
-        //pm.printProductReport(101);
 
-        pm.reviewProduct(101, Rating.FOUR_STARS, "Nice hot cup of tea");
-        pm.reviewProduct(101, Rating.TWO_STARS, "Rather weak  tea");
-        pm.reviewProduct(101, Rating.FOUR_STARS, "Fine tea");
-        pm.reviewProduct(101, Rating.FOUR_STARS, "Good tea");
-        pm.reviewProduct(101, Rating.FIVE_STARS, "Perfect tea");
-        pm.reviewProduct(101, Rating.THREE_STARS, "Just add some lemon");
-        //pm.printProductReport(101);
+     //   pm.printProductReport(62);
+        pm.parseReview("101,4,Nice cup of Tea");
+
+    //    pm.reviewProduct(62, Rating.FOUR_STARS, "Nice hot cup of tea");
+     //   pm.reviewProduct(101, Rating.TWO_STARS, "Rather weak  tea");
+       // pm.reviewProduct(101, Rating.FOUR_STARS, "Fine tea");
+        //pm.reviewProduct(101, Rating.FOUR_STARS, "Good tea");
+        //pm.reviewProduct(101, Rating.FIVE_STARS, "Perfect tea");
+        //pm.reviewProduct(101, Rating.THREE_STARS, "Just add some lemon");
+       pm.printProductReport(101);
        // pm.changeLocale("ru-RU");
 
-        pm.createProduct(102, "Coffee", BigDecimal.valueOf(1.99), Rating.NOT_STAR);
+  /*      pm.createProduct(102, "Coffee", BigDecimal.valueOf(1.99), Rating.NOT_STAR);
       pm.reviewProduct(102, Rating.THREE_STARS, "Coffee was ok");
        pm.reviewProduct(102, Rating.ONE_STAR, "Where is the milk ?");
          pm.reviewProduct(102, Rating.FIVE_STARS, "It's perfect with ten spoons of suger !");
@@ -60,7 +62,7 @@ public class Shop {
         pm.printProducts(p -> p.getPrice().floatValue() < 2  ,(p1, p2) -> p2.getRating().ordinal() - p1.getRating().ordinal());
         pm.getDiscounts().forEach(
                 (rating,discount) -> System.out.println(rating +"\t"+ discount));
-
+*/
 
 
 
